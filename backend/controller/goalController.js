@@ -3,18 +3,29 @@
 // @route GET /api/goals
 // @access Public
 // This is the goalController.js file that handles the logic for the goal routes.
+const Goal = require('../models/goalModel');
+// @desc Get Goals
+// @route GET /api/goals
+// @access Public
  const getGoals = asyncHandler (async(req, res) => {
     if(!req.body.text) {
         return res.status(400)
         throw new Error('Please add a text field');
     }
+    
   console.log(req.body);
+  const goals = await Goal.find();
   res.status(200).json({ message: 'Get Goals' });
 });
 // @desc Set Goals
 const setGoals = asyncHandler(async(req, res) => {
   console.log(req.body);
   res.status(201).json({ message: 'Set Goals' });
+
+  const goal = await Goal.create({
+    text: req.body.text,
+  });
+  res.status(201).json(goal); 
 });
 // @desc Update Goal
 const updateGoal = asyncHandler(async(req, res) => {        
